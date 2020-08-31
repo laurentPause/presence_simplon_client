@@ -1,9 +1,15 @@
 <template>
-  <div class="h-100">
-    <NavBar />
-    <div class="row h-100">
+  <div id="page-top">
+    <div id="wrapper">
       <SideBar class="col-2" />
-      <Nuxt />
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <NavBar />
+          <div class="container-fluid">
+            <Nuxt />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -21,7 +27,7 @@ export default {
 </script>
 
 <style>
-html,body,#__nuxt,#__layout{
-  height: 100%;
-}
+
+@import '@/assets/template/admin/vendor/fontawesome-free/css/all.min.css';
+@import '@/assets/template/admin/css/sb-admin-2.css';
 </style>

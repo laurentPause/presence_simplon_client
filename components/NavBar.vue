@@ -1,42 +1,41 @@
 <template>
-  <div>
-    <b-navbar toggleable="lg" type="dark" variant="info" show>
-      <b-navbar-brand href="#">
-        <nuxt-link to="/" class="text-light">
-          Simplon présence
-        </nuxt-link>
-      </b-navbar-brand>
+  <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    <!-- Sidebar Toggle (Topbar) -->
+    <!-- <button class="btn btn-link d-md-none rounded-circle mr-3">
+      <i class="fa fa-bars" />
+    </button> -->
 
-      <b-navbar-toggle target="nav-collapse" />
-
-      <b-collapse id="nav-collapse" is-nav>
-        <!-- Right aligned nav items -->
-        <!-- <b-navbar-nav class="ml-auto">
-          <b-nav-item>
-            <nuxt-link to="/login" class="text-light ">
-              Connexion
-            </nuxt-link>
-          </b-nav-item>
-          <b-nav-item class="ml-2">
-            <nuxt-link to="/register" class="text-light ">
-              Inscription
-            </nuxt-link>
-          </b-nav-item>
-        </b-navbar-nav> -->
-
-        <!-- <b-navbar-nav class="ml-auto">
-          <b-nav-item>
-            <nuxt-link to="/profile"> -->
-        <!-- {{ $auth.user.email }} -->
-        <!-- </nuxt-link>
-          </b-nav-item>
-          <b-nav-item @click="deconnexion()">
-            Déconnexion
-          </b-nav-item>
-        </b-navbar-nav> -->
-      </b-collapse>
-    </b-navbar>
-  </div>
+    <!-- Topbar Navbar -->
+    <ul class="navbar-nav ml-auto">
+      <div class="topbar-divider d-none d-sm-block" />
+      <li class="nav-item">
+        <b-dropdown size="lg" variant="link" toggle-class="text-decoration-none" no-caret>
+          <template v-slot:button-content>
+            <a
+              id="userDropdown"
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <span class="mr-2 d-none d-lg-inline text-gray-600 small">Users</span>
+              <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+            </a>
+          </template>
+          <b-dropdown-item href="#">
+            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400" />
+            Profile
+          </b-dropdown-item>
+          <b-dropdown-item href="#">
+            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" />
+            Logout
+          </b-dropdown-item>
+        </b-dropdown>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <script>
