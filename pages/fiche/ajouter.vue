@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div>
     <b-overlay :show="onLoad" rounded="sm">
-      <h1>Ajouter une fiche</h1>
+      <Title titre="Ajouter une feuille" />
       <div v-if="!showFormAdd">
         <b-form @submit="onSubmit">
           <b-form-group
@@ -48,12 +48,11 @@
 
 <script>
 import axios from 'axios'
-import FormFiche from '~/components/FormFiche'
+import Title from '~/components/Title'
 
 export default {
   components: {
-    // eslint-disable-next-line vue/no-unused-components
-    FormFiche
+    Title
   },
   data () {
     return {
@@ -109,11 +108,11 @@ export default {
       await axios.post('http://localhost:3030/fiche', data)
         .then((response) => {
           this.$toast.success('Ajout de la fiche de présence !')
+          this.onLoad = false
           this.$routes.push('/fiche')
         }).catch(function (e) {
           this.$toast.error('Erreur !')
         })
-      this.onLoad = false
     },
     async getSections () {
       this.onLoad = true

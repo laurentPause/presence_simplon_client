@@ -41,7 +41,7 @@
     <li class="nav-item">
       <nuxt-link class="nav-link" to="/fiche/ajouter">
         <i class="fas fa-file-import" />
-        <span>Ajouter une feuilles</span>
+        <span>Ajouter une feuille</span>
       </nuxt-link>
     </li>
 
@@ -56,7 +56,7 @@
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
       <a v-b-toggle.formateur-side class="nav-link collapsed">
-        <i class="fas fa-fw fa-folder" />
+        <i class="fas fa-user-tie" />
         <span>Formateur</span>
       </a>
       <b-collapse id="formateur-side">
@@ -73,7 +73,7 @@
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
       <a v-b-toggle.apprenant-side class="nav-link collapsed">
-        <i class="fas fa-fw fa-folder" />
+        <i class="fas fa-user-graduate" />
         <span>Apprenant</span>
       </a>
       <b-collapse id="apprenant-side">
@@ -90,7 +90,7 @@
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
       <a v-b-toggle.section-side class="nav-link collapsed">
-        <i class="fas fa-fw fa-folder" />
+        <i class="fas fa-users" />
         <span>Section</span>
       </a>
       <b-collapse id="section-side">
@@ -101,8 +101,22 @@
           <nuxt-link class="collapse-item" to="/section/ajouter">
             Ajouter une section
           </nuxt-link>
-          <nuxt-link class="collapse-item" to="/section/associer">
-            Associer
+        </div>
+      </b-collapse>
+    </li>
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+      <a v-b-toggle.centre-side class="nav-link collapsed">
+        <i class="fas fa-university" />
+        <span>Centre</span>
+      </a>
+      <b-collapse id="centre-side">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <nuxt-link class="collapse-item" to="/section">
+            Voir les centres
+          </nuxt-link>
+          <nuxt-link class="collapse-item" to="/section/ajouter">
+            Ajouter un centre
           </nuxt-link>
         </div>
       </b-collapse>

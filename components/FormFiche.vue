@@ -97,7 +97,7 @@
       </b-button>
     </b-button-group>
 
-    <client-only>
+    <div>
       <vue-html2pdf
         ref="pdf"
         :show-layout="false"
@@ -211,7 +211,7 @@
           </div>
         </section>
       </vue-html2pdf>
-    </client-only>
+    </div>
   </div>
 </template>
 
@@ -236,6 +236,7 @@ export default {
   },
   mounted () {
     this.createPage()
+    console.log('formateur : ', this.formateurs)
   },
   methods: {
     generate () {
@@ -248,7 +249,6 @@ export default {
         const apprenants = this.fiche.apprenants.slice(index, 5 + index)
         this.pages.push({ index: page, apprenants })
       }
-      console.log(this.pages)
     },
     breakPage (index) {
       if (index > 0) {
@@ -259,24 +259,26 @@ export default {
     },
     async supprimer () {
       try {
-        await this.$axios.$delete('http://localhost:3030/fiche', { id: this.fiche._id })
+        await this.$axios.$delete('http://localhost:3030/fiche/' + this.fiche._id)
         this.$toast.success('Fiche supprimer !')
+        this.$emit('recharge')
       } catch (e) {
         this.$toast.error('Erreur serveur !')
       }
     },
     async synchroniser () {
       try {
-        const sheet = await this.$axios.$get('http://localhost:3030/sheet', { id: this.fiche.idSheet })
+        this.$emit('inLoad')
+        const sheet = await this.$axios.$get('http://localhost:3030/sheet/' + this.fiche.idSheet)
         const data = {
           id: this.fiche._id,
-          semaine: sheet.semaine,
-          apprenants: sheet.apprenants,
-          formateurs: sheet.formateurs
+          semaine: sheet.fiche.semaine,
+          apprenants: sheet.fiche.apprenants,
+          formateurs: sheet.fiche.formateurs
         }
-        await this.$axios.$update('http://localhost:3030/fiche', data)
-
-        this.$toast.success('Fiche supprimer !')
+        await this.$axios.$put('http://localhost:3030/fiche/' + data.id, data)
+        this.$toast.success('Fiche syncroniser !')
+        this.$emit('recharge')
       } catch (e) {
         this.$toast.error('Erreur serveur !')
       }
