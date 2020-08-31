@@ -42,9 +42,6 @@ export default {
       onLoad: false
     }
   },
-  computed: {
-
-  },
   mounted () {
     this.getFiches()
   },

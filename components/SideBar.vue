@@ -65,7 +65,7 @@
             Voir les formateurs
           </nuxt-link>
           <nuxt-link class="collapse-item" to="/formateur/ajouter">
-            Ajouter une formateur
+            Ajouter un formateur
           </nuxt-link>
         </div>
       </b-collapse>
@@ -82,7 +82,7 @@
             Voir les apprenants
           </nuxt-link>
           <nuxt-link class="collapse-item" to="/apprenant/ajouter">
-            Ajouter une apprenant
+            Ajouter un apprenant
           </nuxt-link>
         </div>
       </b-collapse>
