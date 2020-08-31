@@ -26,21 +26,21 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-      Feuille
+      Feuilles
     </div>
 
     <!-- Nav Item - Page fiche -->
     <li class="nav-item">
       <nuxt-link class="nav-link" to="/fiche">
-        <i class="fas fa-fw fa-tachometer-alt" />
+        <i class="fas fa-file-alt" />
         <span>Voir les feuilles</span>
       </nuxt-link>
     </li>
 
     <!-- Nav Item - Page fiche -->
     <li class="nav-item">
-      <nuxt-link class="nav-link" to="/fiche">
-        <i class="fas fa-fw fa-tachometer-alt" />
+      <nuxt-link class="nav-link" to="/fiche/ajouter">
+        <i class="fas fa-file-import" />
         <span>Ajouter une feuilles</span>
       </nuxt-link>
     </li>

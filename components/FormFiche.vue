@@ -86,19 +86,14 @@
       </tbody>
     </table> -->
     <b-button-group class="w-100">
-      <b-button variant="success" @click="generate()">
-        Générer un pdf
+      <b-button variant="success" title="Générer un PDF" @click="generate()">
+        <i class="fas fa-file-pdf" />
       </b-button>
-      <b-button variant="info" @click="synchroniser()">
-        Synchroniser
+      <b-button variant="info" title="Syncroniser avec le google sheet" @click="synchroniser()">
+        <i class="fas fa-sync-alt" />
       </b-button>
-    </b-button-group>
-    <b-button-group class="w-100">
-      <!-- <b-button variant="info" @click="update()">
-        Modifier
-      </b-button> -->
-      <b-button variant="danger" @click="supprimer()">
-        Supprimer
+      <b-button variant="danger" title="Supprimer" @click="supprimer()">
+        <i class="fas fa-trash" />
       </b-button>
     </b-button-group>
 
