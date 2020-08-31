@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="info" show >
+    <b-navbar toggleable="lg" type="dark" variant="info" show>
       <b-navbar-brand href="#">
         <nuxt-link to="/" class="text-light">
           Simplon présence
@@ -11,7 +11,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
+        <!-- <b-navbar-nav class="ml-auto">
           <b-nav-item>
             <nuxt-link to="/login" class="text-light ">
               Connexion
@@ -22,18 +22,18 @@
               Inscription
             </nuxt-link>
           </b-nav-item>
-        </b-navbar-nav>
+        </b-navbar-nav> -->
 
-        <b-navbar-nav class="ml-auto">
+        <!-- <b-navbar-nav class="ml-auto">
           <b-nav-item>
-            <nuxt-link to="/profile">
-              <!-- {{ $auth.user.email }} -->
-            </nuxt-link>
+            <nuxt-link to="/profile"> -->
+        <!-- {{ $auth.user.email }} -->
+        <!-- </nuxt-link>
           </b-nav-item>
           <b-nav-item @click="deconnexion()">
             Déconnexion
           </b-nav-item>
-        </b-navbar-nav>
+        </b-navbar-nav> -->
       </b-collapse>
     </b-navbar>
   </div>

@@ -36,6 +36,11 @@
                 Ajouter une section
               </nuxt-link>
             </b-list-group-item>
+            <b-list-group-item button>
+              <nuxt-link to="/section/associer">
+                Associer
+              </nuxt-link>
+            </b-list-group-item>
           </b-list-group>
         </b-collapse>
       </b-nav-item>
