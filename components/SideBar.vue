@@ -45,6 +45,14 @@
       </nuxt-link>
     </li>
 
+    <!-- Nav Item - Page fiche -->
+    <li class="nav-item">
+      <nuxt-link class="nav-link" to="/fiche/signature">
+        <i class="fas fa-file-signature" />
+        <span>Signature</span>
+      </nuxt-link>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 

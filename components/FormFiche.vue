@@ -273,6 +273,7 @@ export default {
       try {
         this.$emit('inLoad')
         const sheet = await this.$axios.$get('http://localhost:3030/sheet/' + this.fiche.idSheet)
+        console.log(sheet)
         const data = {
           id: this.fiche._id,
           semaine: sheet.fiche.semaine,
