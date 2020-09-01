@@ -16,24 +16,11 @@
                     Nom : {{ formateur.nom }} <br>
                     Prénom : {{ formateur.prenom }}
                   </div>
-                  <b-button-group class="w-100">
-                    <b-button variant="info" title="Syncroniser avec le google sheet" @click="$bvModal.show('modal-update-formateur' + formateur.code)">
-                      <i class="fas fa-user-edit" />
-                    </b-button>
-                    <b-button variant="danger" title="Supprimer" @click="supprimer()">
-                      <i class="fas fa-user-times" />
-                    </b-button>
-                  </b-button-group>
+                  <FormFormateur :formateur="formateur" />
                 </div>
               </div>
             </div>
           </div>
-          <!-- Modals update -->
-          <b-modal :id="'modal-update-formateur' + formateur.code" hide-footer :title="'Modifier ' + formateur.code">
-            <div class="d-block text-center">
-              <FormFormateur :formateur="formateur" />
-            </div>
-          </b-modal>
         </div>
       </div>
     </b-overlay>
