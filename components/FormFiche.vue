@@ -89,6 +89,9 @@
       <b-button variant="success" title="Générer un PDF" @click="generate()">
         <i class="fas fa-file-pdf" />
       </b-button>
+      <b-button variant="primary" title="Générer les liens de signature" @click="linkSignature()">
+        <i class="fas fa-link" />
+      </b-button>
       <b-button variant="info" title="Syncroniser avec le google sheet" @click="synchroniser()">
         <i class="fas fa-sync-alt" />
       </b-button>
@@ -281,6 +284,31 @@ export default {
         this.$emit('recharge')
       } catch (e) {
         this.$toast.error('Erreur serveur !')
+      }
+    },
+    // eslint-disable-next-line require-await
+    async linkSignature () {
+      try {
+        const tabLinks = []
+        this.fiche.apprenants.forEach((aprenant) => {
+          this.fiche.semaine.forEach((jour) => {
+            const strAprenant = '' + aprenant.nom + '+' + aprenant.prenom
+            const tabJourner = jour.split('/')
+            const strJourner = tabJourner.join('+')
+            tabLinks.push('http://localhost:3030/signature?aprenant=' + strAprenant + '&jour=' + strJourner + '&plage=matin' + '&id=' + this.fiche._id)
+            tabLinks.push('http://localhost:3030/signature?aprenant=' + strAprenant + '&jour=' + strJourner + '&plage=apresmidi' + '&id=' + this.fiche._id)
+          })
+        })
+        const data = {
+          idFiche: this.fiche._id,
+          links: tabLinks,
+          created: new Date()
+        }
+        // const test = await this.$axios.$post('http://localhost:3030/lien', data)
+
+        console.log('lien : ', data)
+      } catch (e) {
+        console.log('erreur link !!!!!!')
       }
     }
   }
