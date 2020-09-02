@@ -193,7 +193,7 @@
                     Test
                   </td> -->
                   <td v-for="test in element.signatures" :key="test.index" class="border border-dark">
-                    {{ test.signature }}
+                    <img width="50" :src="test.signature" alt="" srcset="">
                   </td>
                 </tr>
                 <tr>
@@ -322,5 +322,9 @@ export default {
 <style scoped>
  #table-pdf{
    font-size: 60%;
+ }
+ .signature{
+   /* height: 20%;
+   max-width: auto; */
  }
 </style>

@@ -3,7 +3,7 @@
     <Title titre="Signature" />
     <b-overlay :show="onLoad" rounded="sm">
       <div class="row">
-        <b-form @submit="onSubmit">
+        <b-form @submit="onSubmit" @reset="onReset">
           <b-form-group
             id="select-group-fiche"
             label="Feuille de presence:"
@@ -37,7 +37,13 @@
           >
             <b-form-select id="select-creneau" v-model="form.creneau.selected" :options="form.creneau.options" />
           </b-form-group>
-          <Canvas />
+          <b-form-group
+            v-if="form.creneau.selected != null"
+            id="canvas-group-signature"
+            label="Signature :"
+          />
+          <Canvas v-if="form.creneau.selected != null" ref="canvas" :effacer="reset" @signature="signature = $event" />
+
           <b-button type="submit" variant="primary">
             Submit
           </b-button>
@@ -64,6 +70,8 @@ export default {
     return {
       fiches: Array,
       onLoad: false,
+      signature: '',
+      reset: false,
       form: {
         fiche: {
           selected: null,
@@ -131,44 +139,44 @@ export default {
       }
       this.form.apprenant.options = optionsapp
       this.form.jour.options = optionsjour
-      console.log(optionsjour)
     },
+    // eslint-disable-next-line require-await
     async onSubmit (evt) {
       evt.preventDefault()
       switch (this.form.jour.selected) {
         case 0:
           if (this.form.creneau.selected === 'matin') {
-            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[0].signature = 'signer'
+            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[0].signature = this.signature
           } else {
-            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[1].signature = 'signer'
+            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[1].signature = this.signature
           }
           break
         case 1:
           if (this.form.creneau.selected === 'matin') {
-            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[2].signature = 'signer'
+            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[2].signature = this.signature
           } else {
-            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[3].signature = 'signer'
+            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[3].signature = this.signature
           }
           break
         case 2:
           if (this.form.creneau.selected === 'matin') {
-            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[4].signature = 'signer'
+            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[4].signature = this.signature
           } else {
-            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[5].signature = 'signer'
+            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[5].signature = this.signature
           }
           break
         case 3:
           if (this.form.creneau.selected === 'matin') {
-            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[6].signature = 'signer'
+            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[6].signature = this.signature
           } else {
-            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[7].signature = 'signer'
+            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[7].signature = this.signature
           }
           break
         case 4:
           if (this.form.creneau.selected === 'matin') {
-            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[8].signature = 'signer'
+            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[8].signature = this.signature
           } else {
-            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[9].signature = 'signer'
+            this.fiches[this.form.fiche.selected].apprenants[this.form.apprenant.selected].signatures[9].signature = this.signature
           }
           break
       }
@@ -177,12 +185,24 @@ export default {
         apprenants: this.fiches[this.form.fiche.selected].apprenants
       }
       try {
+        // eslint-disable-next-line no-unused-vars
         const Signature = await this.$axios.$put('http://localhost:3030/signature', data)
-        console.log(Signature)
+        this.$toast.success('Signé !')
+        this.onReset()
       } catch (e) {
-        console.log('error: ', e)
+        this.$toast.error('Erreur !')
+      }
+    },
+    onReset () {
+      this.form.fiche.selected = null
+      this.form.apprenant.selected = null
+      this.form.jour.selected = null
+      this.form.creneau.selected = null
+      if (this.$refs.canvas) {
+        this.$refs.canvas.clear()
       }
     }
+
   }
 }
 </script>
