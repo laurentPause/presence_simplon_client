@@ -1,90 +1,6 @@
 <template>
   <div>
-    <!-- <div class="row">
-      <div class="col">
-        <img :src="fiche.logo" alt="" srcset="" width="300px">
-      </div>
-      <div class="col">
-        <h1>Feuille d'emargement</h1>
-        <h2>Intitulé: {{ fiche.section.intitule }}</h2>
-      </div>
-    </div>
-    <table class="table table-bordered">
-      <tbody>
-        <tr>
-          <td colspan="2" />
-          <td v-for="element in fiche.semaine" :key="element.index" colspan="2">
-            Le {{ element }}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            NOM PRENOM APPRENANT.E
-          </td>
-          <td>
-            MATIN
-            Durée en h : 4
-          </td>
-          <td>
-            APRES-MIDI
-            Durée en h : 3
-          </td>
-          <td>
-            MATIN
-            Durée en h : 4
-          </td>
-          <td>
-            APRES-MIDI
-            Durée en h : 3
-          </td>
-          <td>
-            MATIN
-            Durée en h : 4
-          </td>
-          <td>
-            APRES-MIDI
-            Durée en h : 3
-          </td>
-          <td>
-            MATIN
-            Durée en h : 4
-          </td>
-          <td>
-            APRES-MIDI
-            Durée en h : 3
-          </td>
-          <td>
-            MATIN
-            Durée en h : 4
-          </td>
-          <td>
-            APRES-MIDI
-            Durée en h : 3
-          </td>
-        </tr>
-        <tr v-for="element in fiche.apprenants" :key="element.index">
-          <td>
-            {{ element.nom }}
-          </td>
-          <td>
-            {{ element.prenom }}
-          </td>
-          <td v-for="n in 10" :key="n.index" />
-        </tr>
-        <tr>
-          <td colspan="2" />
-          <td v-for="n in 5" :key="n.index" colspan="2">
-            NOM Prénom formateur.rice :
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" />
-          <td v-for="element in fiche.formateurs" :key="element.index" colspan="2">
-            {{ element }}
-          </td>
-        </tr>
-      </tbody>
-    </table> -->
+    <!-- Buttons -->
     <b-button-group class="w-100">
       <b-button variant="success" title="Générer un PDF" @click="generate()">
         <i class="fas fa-file-pdf" />
@@ -100,6 +16,17 @@
       </b-button>
     </b-button-group>
 
+    <!-- Modal liens -->
+    <b-modal id="modal-liens" hide-footer title="Liens">
+      <div class="d-block text-center">
+        <h3>Liens :</h3>
+      </div>
+      <b-button class="mt-3" variant="outline-danger" @click="$bvModal.hide('modal-liens')">
+        Fermer
+      </b-button>
+    </b-modal>
+
+    <!-- PDF en HTML -->
     <div>
       <vue-html2pdf
         ref="pdf"
@@ -242,7 +169,6 @@ export default {
   },
   mounted () {
     this.createPage()
-    console.log('formateur : ', this.formateurs)
   },
   methods: {
     generate () {
@@ -276,7 +202,6 @@ export default {
       try {
         this.$emit('inLoad')
         const sheet = await this.$axios.$get('http://localhost:3030/sheet/' + this.fiche.idSheet)
-        console.log(sheet)
         const data = {
           id: this.fiche._id,
           semaine: sheet.fiche.semaine,
@@ -290,7 +215,6 @@ export default {
         this.$toast.error('Erreur serveur !')
       }
     },
-    // eslint-disable-next-line require-await
     async linkSignature () {
       try {
         const tabLinks = []
@@ -308,11 +232,10 @@ export default {
           links: tabLinks,
           created: new Date()
         }
-        // const test = await this.$axios.$post('http://localhost:3030/lien', data)
-
-        console.log('lien : ', data)
+        const liens = await this.$axios.$post('http://localhost:3030/lien', data)
+        this.$toast.success(liens.message)
       } catch (e) {
-        console.log('erreur link !!!!!!')
+        this.$toast.error('Erreur !')
       }
     }
   }
@@ -322,9 +245,5 @@ export default {
 <style scoped>
  #table-pdf{
    font-size: 60%;
- }
- .signature{
-   /* height: 20%;
-   max-width: auto; */
  }
 </style>
