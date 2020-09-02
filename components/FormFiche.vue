@@ -189,8 +189,11 @@
                   <td>
                     {{ element.prenom }}
                   </td>
-                  <td v-for="n in 10" :key="n.index" class="border border-dark">
+                  <!-- <td v-for="n in 10" :key="n.index" class="border border-dark">
                     Test
+                  </td> -->
+                  <td v-for="test in element.signatures" :key="test.index" class="border border-dark">
+                    {{ test.signature }}
                   </td>
                 </tr>
                 <tr>
