@@ -117,7 +117,7 @@
                 </tr>
                 <tr v-for="element in page.apprenants" :key="element.index" class="border border-dark">
                   <td colspan="2">
-                    {{ element.code }}
+                    {{ apprenant(element.code) }}
                   </td>
                   <td v-for="test in element.signatures" :key="test.index" class="border border-dark">
                     <img width="50" :src="test.signature" alt="" srcset="">
@@ -164,6 +164,7 @@ export default {
       },
       semaine: this.fiche.semaine,
       formateurs: this.fiche.formateurs,
+      apprenants: [],
       pages: [],
       links: Object
     }
@@ -179,6 +180,7 @@ export default {
   },
   mounted () {
     this.createPage()
+    this.getApprenants()
   },
   methods: {
     generate () {
@@ -246,6 +248,27 @@ export default {
         this.$bvModal.show('modal-liens')
       } catch (e) {
         this.$toast.error('Erreur !')
+      }
+    },
+    async getApprenants () {
+      try {
+        const finds = []
+        this.fiche.apprenants.forEach((element) => {
+          finds.push({ code: element.code })
+        })
+        const apprenants = await this.$axios.$post('http://localhost:3030/user/find', { filtre: finds })
+        this.apprenants = apprenants.users
+      } catch (e) {
+        this.$toast.error('Erreur !')
+      }
+    },
+    apprenant (code) {
+      console.log(this.apprenants)
+      const found = this.apprenants.find(element => element.login === code)
+      if (found) {
+        return found.nom + ' ' + found.prenom
+      } else {
+        return code
       }
     }
   }
