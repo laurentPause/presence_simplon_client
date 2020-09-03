@@ -19,7 +19,13 @@
     <!-- Modal liens -->
     <b-modal id="modal-liens" hide-footer title="Liens">
       <div class="d-block text-center">
-        <h3>Liens :</h3>
+        <ul>
+          <li v-for="link in links" :key="link.index">
+            <nuxt-link :to="'/fiche/test'+link">
+              {{ link }}
+            </nuxt-link>
+          </li>
+        </ul>
       </div>
       <b-button class="mt-3" variant="outline-danger" @click="$bvModal.hide('modal-liens')">
         Fermer
@@ -116,9 +122,6 @@
                   <td>
                     {{ element.prenom }}
                   </td>
-                  <!-- <td v-for="n in 10" :key="n.index" class="border border-dark">
-                    Test
-                  </td> -->
                   <td v-for="test in element.signatures" :key="test.index" class="border border-dark">
                     <img width="50" :src="test.signature" alt="" srcset="">
                   </td>
@@ -164,7 +167,17 @@ export default {
       },
       semaine: this.fiche.semaine,
       formateurs: this.fiche.formateurs,
-      pages: []
+      pages: [],
+      links: Object
+    }
+  },
+  computed: {
+    tabLiens () {
+      const result = []
+      this.links.forEach((element) => {
+        result.push({ liens: element })
+      })
+      return result
     }
   },
   mounted () {
@@ -218,13 +231,10 @@ export default {
     async linkSignature () {
       try {
         const tabLinks = []
-        this.fiche.apprenants.forEach((aprenant) => {
-          this.fiche.semaine.forEach((jour) => {
-            const strAprenant = '' + aprenant.nom + '+' + aprenant.prenom
-            const tabJourner = jour.split('/')
-            const strJourner = tabJourner.join('+')
-            tabLinks.push('http://localhost:3030/signature?aprenant=' + strAprenant + '&jour=' + strJourner + '&plage=matin' + '&id=' + this.fiche._id)
-            tabLinks.push('http://localhost:3030/signature?aprenant=' + strAprenant + '&jour=' + strJourner + '&plage=apresmidi' + '&id=' + this.fiche._id)
+        this.fiche.apprenants.forEach((aprenant, indexa) => {
+          this.fiche.semaine.forEach((jour, indexb) => {
+            tabLinks.push('?aprenant=' + indexa + '&jour=' + indexb + '&creneau=matin' + '&id=' + this.fiche._id)
+            tabLinks.push('?aprenant=' + indexa + '&jour=' + indexb + '&creneau=apresmidi' + '&id=' + this.fiche._id)
           })
         })
         const data = {
@@ -234,6 +244,9 @@ export default {
         }
         const liens = await this.$axios.$post('http://localhost:3030/lien', data)
         this.$toast.success(liens.message)
+        this.links = liens.liens.links
+        console.log(liens)
+        this.$bvModal.show('modal-liens')
       } catch (e) {
         this.$toast.error('Erreur !')
       }

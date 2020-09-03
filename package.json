@@ -20,6 +20,7 @@
     "nuxt": "^2.14.0",
     "nuxt-pdf": "^1.0.4",
     "puppeteer": "^5.2.1",
+    "v-qrcode": "^1.0.3",
     "vue-html2pdf": "^1.6.4",
     "vue-pdf": "^4.1.0"
   },
