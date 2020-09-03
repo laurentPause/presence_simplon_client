@@ -5,7 +5,7 @@
     <div>
       <p>Lien :</p>
       <nuxt-link :to="link">
-        Signe
+        {{ link }}
       </nuxt-link>
     </div>
   </div>
@@ -37,9 +37,9 @@ export default {
   mounted () {
     const queryString = window.location.search
     const site = window.location.protocol + '//' + window.location.host
-    console.log(queryString)
-    this.link = 'signe' + queryString
+    this.link = '/signe' + queryString
     this.qrText = site + '/' + queryString
+    console.log(this.link)
   }
 }
 </script>
