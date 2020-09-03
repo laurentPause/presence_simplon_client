@@ -116,11 +116,8 @@
                   </td>
                 </tr>
                 <tr v-for="element in page.apprenants" :key="element.index" class="border border-dark">
-                  <td>
-                    {{ element.nom }}
-                  </td>
-                  <td>
-                    {{ element.prenom }}
+                  <td colspan="2">
+                    {{ element.code }}
                   </td>
                   <td v-for="test in element.signatures" :key="test.index" class="border border-dark">
                     <img width="50" :src="test.signature" alt="" srcset="">
