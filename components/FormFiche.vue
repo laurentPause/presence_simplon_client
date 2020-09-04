@@ -132,7 +132,7 @@
                 <tr>
                   <td colspan="2" />
                   <td v-for="element in formateurs" :key="element.index" colspan="2" class="border border-dark">
-                    {{ element }}
+                    {{ formateur(element) }}
                   </td>
                 </tr>
                 <tr>
@@ -164,6 +164,7 @@ export default {
       },
       semaine: this.fiche.semaine,
       formateurs: this.fiche.formateurs,
+      formateursReq: [],
       apprenants: [],
       pages: [],
       links: Object
@@ -181,6 +182,7 @@ export default {
   mounted () {
     this.createPage()
     this.getApprenants()
+    this.getFormateurs()
   },
   methods: {
     generate () {
@@ -263,8 +265,28 @@ export default {
       }
     },
     apprenant (code) {
-      console.log(this.apprenants)
       const found = this.apprenants.find(element => element.login === code)
+      if (found) {
+        return found.nom + ' ' + found.prenom
+      } else {
+        return code
+      }
+    },
+    async getFormateurs () {
+      try {
+        const finds = []
+        this.fiche.formateurs.forEach((element) => {
+          finds.push({ code: element })
+        })
+        const formateurs = await this.$axios.$post('http://localhost:3030/formateur/find', { filtre: finds })
+        this.formateursReq = formateurs.results
+        console.log(formateurs)
+      } catch (e) {
+        this.$toast.error('Erreur formateurs !')
+      }
+    },
+    formateur (code) {
+      const found = this.formateursReq.find(element => element.code === code)
       if (found) {
         return found.nom + ' ' + found.prenom
       } else {
