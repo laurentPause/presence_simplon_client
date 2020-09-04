@@ -21,7 +21,7 @@
       <div class="d-block text-center">
         <ul>
           <li v-for="link in links" :key="link.index">
-            <nuxt-link :to="'/fiche/test'+link">
+            <nuxt-link :to="'/fiche/qrcode'+link">
               {{ link }}
             </nuxt-link>
           </li>

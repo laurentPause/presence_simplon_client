@@ -58,7 +58,8 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     'nuxt-pdf',
-    '@nuxtjs/toast'
+    '@nuxtjs/toast',
+    '@nuxtjs/moment'
   ],
   /*
   ** Axios module configuration
@@ -131,5 +132,11 @@ export default {
   toast: {
     position: 'top-center',
     duration: 3000
+  },
+  moment: {
+    locales: ['fr'],
+    plugins: [
+      'moment-strftime'
+    ]
   }
 }

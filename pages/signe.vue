@@ -120,6 +120,7 @@ export default {
         this.form.apprenant = fiche.fiches.apprenants[this.params.apprenant].nom + ' ' + fiche.fiches.apprenants[this.params.apprenant].prenom
         this.form.jour = fiche.fiches.semaine[this.params.jour]
         this.form.creneau = this.params.creneau
+        this.ctrTime()
       } catch (e) {
         this.$toast.error('Erreur !')
       }
@@ -190,6 +191,27 @@ export default {
         this.$toast.success(Signature.message)
       } catch (e) {
         this.$toast.error('Erreur !')
+      }
+    },
+    ctrTime () {
+      const arrayJour = this.form.jour.split('/').reverse()
+      const stringJour = arrayJour.join('-')
+      const creneau = this.params.creneau
+      let heure
+      if (creneau === 'matin') {
+        heure = 'T08:00:00'
+      } else {
+        heure = 'T13:00:00'
+      }
+      const dateEmargment = this.$moment(stringJour + heure)
+      const here = this.$moment()
+      const limit = this.$moment(dateEmargment).add('minute', 10)
+      if (here > limit) {
+        this.$toast.error('Date d\'émargement dépasser !')
+      } else if (here < dateEmargment) {
+        this.$toast.error('Date d\'émargement à venir !')
+      } else {
+        this.$toast.success('Veuillez signer au plus vite !')
       }
     }
 
