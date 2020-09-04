@@ -1,87 +1,92 @@
 <template>
-  <div>
-    <Title titre="Signature" />
-    <b-overlay :show="onLoad" rounded="sm">
-      <div class="row">
-        <b-form @submit="onSubmit">
-          <!-- section -->
-          <b-form-group
-            id="input-group-section"
-            label="Section :"
-            label-for="input-section"
-          >
-            <b-form-input
-              id="input-section"
-              v-model="form.section"
-              type="text"
-              readonly
-            />
-          </b-form-group>
-          <!-- Apprenant -->
-          <b-form-group
-            id="input-group-apprenant"
-            label="Apprenant :"
-            label-for="input-apprenant"
-          >
-            <b-form-input
-              id="input-1"
-              v-model="form.apprenant"
-              type="text"
-              readonly
-            />
-          </b-form-group>
-          <!-- Jour -->
-          <b-form-group
-            id="input-group-jour"
-            label="Jour :"
-            label-for="input-jour"
-          >
-            <b-form-input
-              id="input-jour"
-              v-model="form.jour"
-              type="text"
-              readonly
-            />
-          </b-form-group>
-          <!-- Creneau -->
-          <b-form-group
-            id="input-group-creneau"
-            label="Créneau :"
-            label-for="input-creneau"
-          >
-            <b-form-input
-              id="input-creneau"
-              v-model="form.creneau"
-              type="text"
-              readonly
-            />
-          </b-form-group>
-          <!-- Signature -->
-          <b-form-group
-            id="canvas-group-signature"
-            label="Signature :"
-          />
-          <Canvas ref="canvas" :effacer="reset" @signature="signature = $event" />
-
-          <b-button type="submit" variant="primary">
-            Signer
-          </b-button>
-          <b-button type="button" variant="danger" @click="onReset">
-            Reset
-          </b-button>
-        </b-form>
+  <div class="col-lg-6">
+    <div class="p-5">
+      <div class="text-center">
+        <h1 class="h4 text-gray-900 mb-4">
+          Signature
+        </h1>
       </div>
-    </b-overlay>
+      <b-overlay :show="onLoad" rounded="sm">
+        <div class="row">
+          <b-form class="user" @submit="onSubmit">
+            <!-- section -->
+            <b-form-group
+              id="input-group-section"
+              label="Section :"
+              label-for="input-section"
+            >
+              <b-form-input
+                id="input-section"
+                v-model="form.section"
+                type="text"
+                readonly
+              />
+            </b-form-group>
+            <!-- Apprenant -->
+            <b-form-group
+              id="input-group-apprenant"
+              label="Apprenant :"
+              label-for="input-apprenant"
+            >
+              <b-form-input
+                id="input-1"
+                v-model="form.apprenant"
+                type="text"
+                readonly
+              />
+            </b-form-group>
+            <!-- Jour -->
+            <b-form-group
+              id="input-group-jour"
+              label="Jour :"
+              label-for="input-jour"
+            >
+              <b-form-input
+                id="input-jour"
+                v-model="form.jour"
+                type="text"
+                readonly
+              />
+            </b-form-group>
+            <!-- Creneau -->
+            <b-form-group
+              id="input-group-creneau"
+              label="Créneau :"
+              label-for="input-creneau"
+            >
+              <b-form-input
+                id="input-creneau"
+                v-model="form.creneau"
+                type="text"
+                readonly
+              />
+            </b-form-group>
+            <!-- Signature -->
+            <b-form-group
+              id="canvas-group-signature"
+              label="Signature :"
+            />
+            <Canvas ref="canvas" :effacer="reset" @signature="signature = $event" />
+
+            <b-button type="submit" variant="primary">
+              Signer
+            </b-button>
+            <b-button type="button" variant="danger" @click="onReset">
+              Reset
+            </b-button>
+          </b-form>
+        </div>
+      </b-overlay>
+    </div>
   </div>
 </template>
 
 <script>
-import Title from '~/components/Title'
 import Canvas from '~/components/Canvas'
 
 export default {
+  layout: 'apprenant',
   components: {
-    Title,
     Canvas
   },
   data () {
@@ -90,6 +95,7 @@ export default {
       onLoad: false,
       reset: false,
       signature: '',
+      apprenant: Object,
       form: {
         section: '',
         apprenant: '',
@@ -116,8 +122,9 @@ export default {
       this.onLoad = true
       try {
         const fiche = await this.$axios.$get('http://localhost:3030/fiche/' + this.params.fiche)
+        await this.getApprenant(fiche.fiches.apprenants[this.params.apprenant].code)
         this.form.section = fiche.fiches.section.intitule
-        this.form.apprenant = fiche.fiches.apprenants[this.params.apprenant].nom + ' ' + fiche.fiches.apprenants[this.params.apprenant].prenom
+        this.form.apprenant = this.apprenant.nom + ' ' + this.apprenant.prenom
         this.form.jour = fiche.fiches.semaine[this.params.jour]
         this.form.creneau = this.params.creneau
         this.ctrTime()
@@ -212,6 +219,16 @@ export default {
         this.$toast.error('Date d\'émargement à venir !')
       } else {
         this.$toast.success('Veuillez signer au plus vite !')
+      }
+    },
+    async getApprenant (code) {
+      try {
+        const apprenant = await this.$axios.$get('http://localhost:3030/user/' + code)
+        this.apprenant = apprenant.results
+        console.log(this.apprenant)
+      } catch (e) {
+        this.$toast.error('Apprenant non existant !')
+        this.apprenant = 'Non trouvée'
       }
     }
 
